@@ -1,17 +1,20 @@
-#include <iostream>   // std::cout
-#include <fstream>    // std::ifstream
-#include <iterator>   // std::istreambuf_iterator
-#include <string>     // std::string
-#include <cstdlib>    // std::system
+#include <iostream>       // std::cout
+#include <fstream>        // std::ifstream
+#include <iterator>       // std::istreambuf_iterator
+#include <string>         // std::string
+#include <cstdlib>        // std::system
+#include "submission.hpp" //
 
 // Reads the entire contents of a file and returns it as a string.
-std::string readFile(const std::string& path) {
+std::string readFile(const std::string &path)
+{
 
     // Open the file located at 'path' for reading.
     std::ifstream file(path);
 
     // If the file could not be opened, return an empty string.
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         return "";
     }
 
@@ -19,22 +22,47 @@ std::string readFile(const std::string& path) {
     // and construct one std::string containing the complete file.
     return std::string(
         (std::istreambuf_iterator<char>(file)),
-        std::istreambuf_iterator<char>()
-    );
+        std::istreambuf_iterator<char>());
 }
-std::string trimTrailingWhitespace(std::string str) {
+std::string trimTrailingWhitespace(std::string str)
+{
     while (!str.empty() &&
            (str.back() == ' ' ||
             str.back() == '\n' ||
             str.back() == '\r' ||
-            str.back() == '\t')) {
+            str.back() == '\t'))
+    {
         str.pop_back();
     }
 
     return str;
 }
 
-int main() {
+int main()
+{
+    // Create one submission object.
+    //
+    // Later this will be created automatically whenever
+    // a user submits code through our server/API.
+    Submission submission(
+        "submission_1",            // Unique submission ID.
+        "../samples/solution.cpp", // Submitted source-code file.
+        "cpp"                      // Programming language.
+    );
+
+    // Print some information so we can verify that
+    // the Submission model is working correctly.
+    std::cout << "Submission ID: "
+              << submission.getId()
+              << '\n';
+
+    std::cout << "Language: "
+              << submission.getLanguage()
+              << '\n';
+
+    std::cout << "Source: "
+              << submission.getSourcePath()
+              << '\n';
 
     // Path of the user's submitted C++ source code.
     const std::string sourceFile = "../samples/solution.cpp";
@@ -58,7 +86,6 @@ int main() {
     // Display program heading.
     std::cout << "CodeForge Evaluator\n";
     std::cout << "-------------------\n";
-
 
     // =========================================================
     // STEP 1: COMPILE THE SUBMITTED SOURCE CODE
@@ -89,7 +116,8 @@ int main() {
     int compileResult = std::system(compileCommand.c_str());
 
     // Check whether compilation failed.
-    if (compileResult != 0) {
+    if (compileResult != 0)
+    {
 
         std::cout << "Verdict: COMPILATION_ERROR\n\n";
 
@@ -102,7 +130,6 @@ int main() {
     }
 
     std::cout << "Compilation successful.\n";
-
 
     // =========================================================
     // STEP 2: EXECUTE THE COMPILED PROGRAM
@@ -129,7 +156,8 @@ int main() {
 
     // If the process exits abnormally or returns a non-zero code,
     // currently classify it as a runtime error.
-    if (runResult != 0) {
+    if (runResult != 0)
+    {
 
         std::cout << "Verdict: RUNTIME_ERROR\n";
 
@@ -137,7 +165,6 @@ int main() {
     }
 
     std::cout << "Execution successful.\n";
-
 
     // =========================================================
     // STEP 3: READ ACTUAL AND EXPECTED OUTPUT
@@ -149,19 +176,20 @@ int main() {
     // Read the correct output stored with the testcase.
     std::string expectedOutput = readFile(expectedFile);
 
-
     // =========================================================
     // STEP 4: JUDGE THE SUBMISSION
     // =========================================================
 
     // Compare the program's output with the expected output.
     if (trimTrailingWhitespace(actualOutput) ==
-    trimTrailingWhitespace(expectedOutput)) {
+        trimTrailingWhitespace(expectedOutput))
+    {
 
         // Exact match means the solution passed this testcase.
         std::cout << "Verdict: ACCEPTED\n";
-
-    } else {
+    }
+    else
+    {
 
         // Outputs do not exactly match.
         std::cout << "Verdict: WRONG_ANSWER\n";
