@@ -8,3 +8,6 @@ cmake-build-*/
 *.log
 .env
 EOF
+
+backend/build/
+backend/runtime/*

@@ -1,4 +1,3 @@
-cat > README.md <<'EOF'
 # CodeForge
 
 A scalable and fault-tolerant online code evaluation platform.
@@ -16,7 +15,29 @@ CodeForge will provide:
 - Performance monitoring and load testing
 - Web-based code editor and dashboard
 
-## Status
+## Installation
 
-Currently under development.
-EOF
+### macOS
+
+The following setup is recommended for macOS, including Apple Silicon Macs such as M1, M2, M3, and M4.
+
+#### 1. Install Xcode Command Line Tools
+
+The Command Line Tools provide the macOS SDK, compiler tools, and Apple's Clang compiler.
+
+```bash
+xcode-select --install
+
+clang++ --version
+git --version
+make --version
+
+brew --version
+
+brew update
+brew install git gh cmake llvm
+
+
+clang --version
+clang++ --version
+
