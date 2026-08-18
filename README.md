@@ -41,7 +41,9 @@ brew install git gh cmake llvm
 clang --version
 clang++ --version
 
+
 ## The responsibilities will be:
+
 Submission: represents one submitted program, with an ID, source path, language, status, etc.
 Compiler: compiles the submitted C++ file and returns success or compilation error.
 Executor: runs the compiled binary with a test input and captures output.
